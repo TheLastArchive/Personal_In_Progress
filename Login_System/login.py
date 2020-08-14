@@ -1,83 +1,65 @@
 
 def check_email(email):
 
-    x = False
+    f = open("data.txt", 'r')
+    storage = f.read()
+    f.close()
+    if email in storage.strip():
+        return True
+        
+    return False
+
+def check_password(email, password):
 
     f = open("data.txt", 'r')
     storage = f.readlines()
+    for num, line in enumerate(storage, 0):
+        if (email + '\n') in line:
+            if storage[num + 1] == password + '\n':
+                return True
+        else:
+            num += 1
     f.close()
-
-    if email in storage:
-        x = True
-    
-    return x
-
-#def check_password(email, password):
+    return False
 
 def save_data(email, password):
 
     f = open("data.txt" , 'a')
-    f.write(email + " / " + password)
+    f.write(email + '\n' + password + '\n')
     f.close()
     print("Account has been created!")
 
-
 def login():
 
-    email = input("Please enter your email: ")
-    x = False
-    while x == False:
-        if check_email(email) == True:
-            x = True
-            y = False
-            print("Please enter your password")
-            password = input
-            while y == False:
-                if check_password(email, password) == True:
-                    y = True
-                    return "Login successful!"
-                else:
-                    print("Incorrect password, please try again.")
-        else:
-            print("This email does not exist")
-            print("Would you like to try again(y), create an account(c), or exit(e)?")
-            if input.lower() == "c":
-                new_user()
-                break
-            elif input.lower() == "e":
-                print("Goodbye!")
-                break
-            elif input.lower() == "y":
-                pass
-            else:
-                print("Invalid input")
+    email = input("Please enter your email address: ")
+    
+    while(check_email(email) == False):
+        print("Incorrect email, please try again.")
+        email = input("Please enter your email address: ")
+
+    password = input("Please enter your password: ")
+    while (check_password(email, password) == False):
+        print("Incorrect password, please try again.")
+        password = input("Please enter your password: ")
+    print("Login in successful.")
 
 def new_user():
 
-    print("Please enter your email: ")
-    email = input()
-    if check_email(email) == False:
-        x = False
-        while x == False:
-            print("Please enter a password: ")
-            password = input()
-            print("Please confirm your password: ")
-            confirm_pass = input()
-            if password == confirm_pass:
-                x = True
-                save_data(email, password)
-            else:
-                print("These passwords do not match, please try again")
-    else:
-        print("This email has already been taken, would you like to log in? (y/n): ")
-        if input.lower() == "y":
+    email = input("Please enter your email address: ")
+    while(check_email(email) == True):
+        print("This email address has already been registered.")
+        ans = input("Press enter to try again or 'l' to login: ")
+        if ans == 'l':
             login()
-            pass
-        elif input.lower() == "n":
-            pass
-        else:
-            print("Invalid input")
+            return
+        email = input("Please enter your email address: ")
+    
+    password = input("Please enter your password: ")
+    while check_password(email, password) == True:
+        print("This password has already been taken.")
+        password = input("Please try another: ")
 
+    save_data(email, password)
 
 if __name__ == "__main__":
 
