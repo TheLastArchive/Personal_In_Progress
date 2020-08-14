@@ -5,6 +5,7 @@ def read_file(file_name):
 
     read_file = open(file_name, 'r')
     words = read_file.readlines()
+    read_file.close()
 
     return words
 
