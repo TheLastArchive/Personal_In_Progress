@@ -1,51 +1,143 @@
 import random
+import sys
 
 
 def read_file(file_name):
+    file = open(file_name,'r')
+    return file.readlines()
 
-    read_file = open(file_name, 'r')
-    words = read_file.readlines()
-    read_file.close()
 
-    return words
+def get_user_input():
+    return input('Guess the missing letter: ')
+
+
+def ask_file_name():
+    file_name = input("Words file? [leave empty to use short_words.txt] : ")
+    if not file_name:
+        return 'short_words.txt'
+    return file_name
 
 
 def select_random_word(words):
+    random_index = random.randint(0, len(words)-1)
+    word = words[random_index].strip()
+    return word
 
-    word = words[random.randint(0, (len(words) - 1))]
-    l = word[random.randint(0 , (len(word) - 2))]
 
-    print("Guess the word:", word.replace(l , '_' , 1))
+def random_fill_word(word):
 
-    return word , l
-
-def get_user_input(l):
-   
-    answer = input("Guess the missing letter: ")
-    if (answer == l):
-        print("Correct!")
-    else:
-        print("Wrong!")
-
-    return answer 
-
-def get_user_file():
-
-    words_file = input("Use your own .txt file? Leave blank for short_words.txt: ")
-    if (words_file == ""):
-        words_file = "short_words.txt"
-
-    return words_file
-
-def run_game(file_name):
+    x = random.randint(0, len(word) - 1)
+    dupe_check = word[x]
+    temp = list(word)
+    i = 0
     
-    words = read_file(file_name)
-    word , l = select_random_word(words)
-    answer = get_user_input(l)
-    print('The word was: '+word)
+    while i <= len(word) - 1:
+        if i == x or dupe_check == temp[i]:
+           i+= 1
+        else:
+            temp[i] = '_'
+            i += 1
 
+    return "".join(temp)
+
+
+def is_missing_char(original_word, answer_word, char):
+
+    i = 0
+    temp1 = list(original_word)
+    temp2 = list(answer_word)
+
+    if char in temp2: return False
+
+    while i <= len(original_word) - 1:
+        if char == temp1[i]: return True
+        else: i += 1
+    return False
+
+
+def fill_in_char(original_word, answer_word, char):
+
+    temp1 = list(original_word)
+    temp2 = list(answer_word)
+    i = 0
+
+    while i <= (len(original_word) -1): #running the while loop through the entire word allows for
+        if char == temp1[i]:            #duplicate letters to be revealed
+            temp2[i] = char
+            i += 1
+        else: i += 1
+    return "".join(temp2) #returns answer_word with new character
+
+
+def do_correct_answer(original_word, answer, guess):
+    answer = fill_in_char(original_word, answer, guess)
+    print(answer)
+    return answer
+
+
+def do_wrong_answer(word, number_guesses, answer):
+
+    if number_guesses == 0:
+        draw_figure(0)
+        print("Sorry, you are out of guesses. The word was: " +word)
+    else:
+        print('Wrong! Number of guesses left: '+str(number_guesses))
+        draw_figure(number_guesses)
+        print(answer)
+
+
+def draw_figure(number_guesses):
+    
+    four_left = "/----\n|\n|\n|\n|\n_______" 
+    three_left = "/----\n|   O\n|\n|\n|\n_______"
+    two_left = "/----\n|   O\n|  /|\ \n|\n|\n_______"
+    one_left = "/----\n|   O\n|  /|\ \n|   |\n|\n_______"
+    dead = '/----\n|   O\n|  /|\\\n|   |\n|  / \\\n_______'
+
+    if number_guesses == 4:
+        print(four_left)
+    elif number_guesses == 3:
+        print(three_left)
+    elif number_guesses == 2:
+        print(two_left)
+    elif number_guesses == 1:
+        print(one_left)
+    else:
+        print(dead)
+    
+
+def win(word, number_guesses):
+
+    print("Congratulations!")
+    print(" \O/\n  | \n  |\n / \ ")
+
+
+def run_game_loop(word, answer):
+
+    print("Guess the word: "+answer)
+    number_guesses = 5
+    while number_guesses != 0 and word != answer:
+        guess = get_user_input()
+        if guess.lower() in ["exit", "quit"]:
+            print("Bye!")
+            break
+        if is_missing_char(word, answer, guess):
+            answer = do_correct_answer(word, answer, guess)
+        else:
+            number_guesses -= 1
+            do_wrong_answer(word, number_guesses, answer)
+    
+    if word == answer: win(word, number_guesses)
+            
 
 if __name__ == "__main__":
 
-    words_file = get_user_file()
-    run_game(words_file)
+    if len(sys.argv) > 1:
+        words_file = sys.argv[1]
+    else:
+        words_file = ask_file_name()
+    words = read_file(words_file)
+    selected_word = select_random_word(words)
+    current_answer = random_fill_word(selected_word)
+
+    run_game_loop(selected_word, current_answer)
