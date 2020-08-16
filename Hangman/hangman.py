@@ -26,13 +26,13 @@ def select_random_word(words):
 
 def random_fill_word(word):
 
-    x = random.randint(0, len(word) - 1)
-    dupe_check = word[x]
+    random_index = random.randint(0, len(word) - 1)
+    dupe_check = word[random_index]
     temp = list(word)
     i = 0
     
     while i <= len(word) - 1:
-        if i == x or dupe_check == temp[i]:
+        if i == random_index or dupe_check == temp[i]:
            i+= 1
         else:
             temp[i] = '_'
@@ -88,22 +88,16 @@ def do_wrong_answer(word, number_guesses, answer):
 
 def draw_figure(number_guesses):
     
-    four_left = "/----\n|\n|\n|\n|\n_______" 
-    three_left = "/----\n|   O\n|\n|\n|\n_______"
-    two_left = "/----\n|   O\n|  /|\ \n|\n|\n_______"
-    one_left = "/----\n|   O\n|  /|\ \n|   |\n|\n_______"
-    dead = '/----\n|   O\n|  /|\\\n|   |\n|  / \\\n_______'
-
     if number_guesses == 4:
-        print(four_left)
+        print("/----\n|\n|\n|\n|\n_______")
     elif number_guesses == 3:
-        print(three_left)
+        print("/----\n|   O\n|\n|\n|\n_______")
     elif number_guesses == 2:
-        print(two_left)
+        print("/----\n|   O\n|  /|\ \n|\n|\n_______")
     elif number_guesses == 1:
-        print(one_left)
+        print("/----\n|   O\n|  /|\ \n|   |\n|\n_______")
     else:
-        print(dead)
+        print("/----\n|   O\n|  /|\\\n|   |\n|  / \\\n_______")
     
 
 def win(word, number_guesses):
@@ -126,7 +120,6 @@ def run_game_loop(word, answer):
         else:
             number_guesses -= 1
             do_wrong_answer(word, number_guesses, answer)
-    
     if word == answer: win(word, number_guesses)
             
 
@@ -134,10 +127,9 @@ if __name__ == "__main__":
 
     if len(sys.argv) > 1:
         words_file = sys.argv[1]
-    else:
-        words_file = ask_file_name()
+    else: words_file = ask_file_name()
+
     words = read_file(words_file)
     selected_word = select_random_word(words)
     current_answer = random_fill_word(selected_word)
-
     run_game_loop(selected_word, current_answer)
