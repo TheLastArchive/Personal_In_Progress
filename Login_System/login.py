@@ -4,23 +4,21 @@ def check_email(email):
     f = open("data.txt", 'r')
     storage = f.read()
     f.close()
-    if email in storage.strip():
-        return True
-        
+    if email in storage.strip(): return True
     return False
+    
 
 def check_password(email, password):
 
     f = open("data.txt", 'r')
     storage = f.readlines()
+    f.close()
     for num, line in enumerate(storage, 0):
         if (email + '\n') in line:
-            if storage[num + 1] == password + '\n':
-                return True
-        else:
-            num += 1
-    f.close()
+            if storage[num + 1] == password + '\n': return True
+        else: num += 1
     return False
+
 
 def save_data(email, password):
 
@@ -28,6 +26,7 @@ def save_data(email, password):
     f.write(email + '\n' + password + '\n')
     f.close()
     print("Account has been created!")
+
 
 def login():
 
@@ -42,6 +41,7 @@ def login():
         print("Incorrect password, please try again.")
         password = input("Please enter your password: ")
     print("Login in successful.")
+
 
 def new_user():
 
@@ -60,6 +60,7 @@ def new_user():
         password = input("Please try another: ")
 
     save_data(email, password)
+
 
 if __name__ == "__main__":
 
