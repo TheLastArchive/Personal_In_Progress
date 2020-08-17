@@ -1,17 +1,6 @@
 this
 is
 a
-file 
-filled with words
-that need
-to
-be
-sorted alphabetically
-it also
-need to ignore
-the word the
-infront of words
-the a 
-the b 
-isiah 
-is dumb
+list
+to be
+sorted
