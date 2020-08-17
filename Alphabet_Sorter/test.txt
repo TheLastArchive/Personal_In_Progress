@@ -1,11 +1,17 @@
 this
-file
-has
+is
 a
-bunch
-of
-words
+file 
+filled with words
+that need
 to
 be
-sorted
-alphabetically
+sorted alphabetically
+it also
+need to ignore
+the word the
+infront of words
+the a 
+the b 
+isiah 
+is dumb
