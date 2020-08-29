@@ -17,13 +17,13 @@ def get_user_file():
 
 def save_data(words):
 
-    f = open("/home/wtc/Alex_Stuff/Python-Practice/Alphabet_Sorter/test.txt", 'w')
+    f = open("test.txt", 'w')
     f.write(str(words))
     f.close()
 
 def sort_file(words):
 
-    path = '/home/wtc/Alex_Stuff/Python-Practice/Alphabet_Sorter/DIO.txt'
+    path = '/home/alex/Documents/Python-Practice/Alphabet_Sorter/DIO.txt'
 
     f = open(path, 'r')
     storage = f.read()
