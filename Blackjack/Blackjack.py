@@ -1,14 +1,5 @@
 import random
-
-def deck_to_list():
-
-    f = open('deck.txt', 'r')
-    deck = f.read()
-    f.close()
-    deck = deck.split("#")
-
-    return deck
-
+import deck_values
 
 def assign_cards(deck):
 
@@ -24,10 +15,14 @@ def assign_cards(deck):
     return player, deck
 
 
-def run_game():
+def run_game(deck):
 
-    print("Welcome to Blackjack!")
+    player_hand, deck = assign_cards(deck)
+    
+    print("Your starting hand is", player_hand)
     
 
 if __name__ == '__main__':
-    run_game()
+
+    deck = deck_values.get_deck()
+    run_game(deck)
