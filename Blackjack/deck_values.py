@@ -31,7 +31,6 @@ def deck_to_dict(deck, values):
 
     for x in range(len(deck)):
         deck_dict[deck[x]] = values[x]
-    print(deck_dict)
     return deck_dict
 
 #deck, deck_dict = get_deck()

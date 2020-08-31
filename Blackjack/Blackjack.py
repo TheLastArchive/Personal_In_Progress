@@ -15,14 +15,28 @@ def assign_cards(deck):
     return player, deck
 
 
-def run_game(deck):
+def card_sum(player, deck_dict):
+
+    return
+
+def hit_player(deck, player):
+
+    i = random.randit(0, 51)
+    player.append(deck[i])
+    deck[i] = '_'
+
+    return deck, player
+
+
+def run_game(deck, deck_dict):
 
     player_hand, deck = assign_cards(deck)
     
-    print("Your starting hand is", player_hand)
+    while card_sum(player_hand, deck_dict) < 21:
     
 
 if __name__ == '__main__':
 
-    deck = deck_values.get_deck()
-    run_game(deck)
+    
+    deck, deck_dict = deck_values.get_deck()
+    run_game(deck, deck_dict)
