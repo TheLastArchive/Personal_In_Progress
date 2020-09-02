@@ -6,7 +6,7 @@ def get_deck():
     open_file.close()
     deck = deck.split("#")
 
-    deck_dict = get_values(deck)
+    deck, deck_dict = get_values(deck)
     return deck, deck_dict
 
 def get_values(deck):
