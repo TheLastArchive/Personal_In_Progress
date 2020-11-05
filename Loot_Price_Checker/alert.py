@@ -1,9 +1,10 @@
 import smtplib
+import os
 
 def send_email():
 
     USER = 'loot.price.check@gmail.com'
-    APP_PASSWORD = 'alsnzvmaziseeuaz'
+    APP_PASSWORD = os.environ.get('APP_PASSWORD')
 
     with smtplib.SMTP('smtp.gmail.com', 587) as server:
         server.ehlo()
